@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
+<html lang="es"> <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Gestión de Gastos</title>
@@ -21,58 +20,68 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             width: 300px;
         }
-        h2 { text-align: center; color: #333; }
+        h2 { text-align: center; color: #1a1a1a; } /* Contraste alto para el título */
         .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; color: #666; }
-        input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        button { width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; }
-        button:hover { background-color: #0056b3; }
-        .message { margin-top: 15px; text-align: center; font-weight: bold; }
+        label { display: block; margin-bottom: 5px; color: #2d2d2d; font-weight: bold; } /* Texto más oscuro para accesibilidad */
+        input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #767676; border-radius: 4px; font-size: 16px; } /* Bordes visibles y tamaño de fuente accesible */
+        
+        /* 2. Azul con contraste mejorado (#0056b3) para cumplir la regla WCAG AA de Lighthouse */
+        button { 
+            width: 100%; 
+            padding: 12px; 
+            background-color: #0056b3; 
+            color: white; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            font-weight: bold;
+        }
+        button:hover { background-color: #003d82; }
+        
+        /* Contenedor de mensajes con accesibilidad (región aria-live) */
+        .message { margin-top: 15px; text-align: center; font-weight: bold; min-height: 20px; }
     </style>
 </head>
 <body>
 
-<div class="login-card">
-    <h2>Iniciar Sesión</h2>
+<main class="login-card"> <h2>Iniciar Sesión</h2>
     <form id="loginForm">
         <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" required placeholder="ejemplo@correo.com">
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" required placeholder="ejemplo@correo.com" autocomplete="email">
         </div>
         <div class="form-group">
-            <label for="password">Contraseña:</label>
-            <input type="password" id="password" required placeholder="Tu contraseña">
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" required placeholder="Introduce tu contraseña" autocomplete="current-password">
         </div>
-        <button type="submit">Ingresar</button>
+        <button type="submit" aria-label="Iniciar sesión en el sistema de gastos">Ingresar</button>
     </form>
-    <div id="message" class="message"></div>
-</div>
+    
+    <div id="message" class="message" aria-live="polite"></div>
+</main>
 
 <script>
-    // Datos simulados preexistentes en localStorage para la prueba
-    // (En una app real, esto se crearía desde el formulario de Registro)
     if (!localStorage.getItem('userEmail')) {
         localStorage.setItem('userEmail', 'usuario@correo.com');
         localStorage.setItem('userPassword', '123456');
     }
 
     document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault(); // Evita que la página se recargue
+        e.preventDefault();
         
         const inputEmail = document.getElementById('email').value;
         const inputPassword = document.getElementById('password').value;
         const messageDiv = document.getElementById('message');
 
-        // Obtener credenciales guardadas en localStorage
         const storedEmail = localStorage.getItem('userEmail');
         const storedPassword = localStorage.getItem('userPassword');
 
-        // Validación de campos
         if (inputEmail === storedEmail && inputPassword === storedPassword) {
-            messageDiv.style.color = "green";
+            messageDiv.style.color = "#1967d2"; // Azul accesible para el éxito
             messageDiv.innerText = "¡Acceso concedido exitosamente!";
         } else {
-            messageDiv.style.color = "red";
+            messageDiv.style.color = "#c5221f"; // Rojo accesible para el error
             messageDiv.innerText = "Error: El email o la contraseña no coinciden.";
         }
     });
